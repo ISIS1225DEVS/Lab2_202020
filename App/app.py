@@ -35,6 +35,15 @@ from DataStructures import liststructure as lt
 
 from time import process_time 
 
+def less(element1, element2):
+    if int(element1['vote_average']) < int(element2['vote_average']):
+        return True
+    return False
+
+def greater(element1, element2):
+    if int(element1['vote_average']) > int(element2['vote_average']):
+        return True
+    return False
 
 def loadCSVFile (file, sep=";"):
     """
