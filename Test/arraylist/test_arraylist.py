@@ -23,8 +23,6 @@ import pytest
 import config 
 from DataStructures import arraylist as slt
 
-
-
 def cmpfunction (element1, element2):
     if element1["book_id"] == element2["book_id"]:
         return 0
