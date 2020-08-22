@@ -162,6 +162,33 @@ def main():
                     criteria =input('Ingrese el criterio de búsqueda\n')
                     counter=countElementsByCriteria(criteria,0,lista)
                     print("Coinciden ",counter," elementos con el crtierio: '", criteria ,"' (en construcción ...)")
+            elif int(inputs[0])==5: #opcion 5
+                if lista==None or lista['size']==0: #obtener la longitud de la lista
+                    print("La lista esta vacía")
+                else:
+                    criteria1 = input('Ingrese 0 para las de mayor promedio o 1 para las de menor promedio')
+                    cant1 = input('Ingrese la cantidad de películas que desea ver por por el promedio de calificación\n')
+                    criteria2 = input('Ingrese 0 para las de mayor cantidad de votos o 1 para las de menor cantidad')
+                    cant2 = input('Ingrese la cantidad de películas que desea ver por por la cantidad de votos\n')
+                    try:
+                        if int(criteria1) == 0:
+                            prom = orderElementsByCriteria(greater, 'vote_average', lista, int(cant1))
+                        elif int(criteria1) == 0:
+                            prom = orderElementsByCriteria(less, 'vote_average', lista, int(cant1))
+                        if int(criteria2) == 0:
+                            cant = orderElementsByCriteria(greater, 'vote_count', lista, int(cant2))
+                        elif int(criteria2) == 0:
+                            prom = orderElementsByCriteria(less, 'vote_count', lista, int(cant2))
+                        print('Los resultados por promedio son:\n')
+                        print('-' * 30)
+                        for i in prom:
+                            print(i['title'], i['vote_average'])
+                        print('Los resultados por cantidad de votos son:\n')
+                        print('-' * 30)
+                        for i in cant:
+                            print(i['title'], i['vote_average'])
+                    except:
+                        print('Ha ocurrido un error al ingresar los parametros')
             elif int(inputs[0])==0: #opcion 0, salir
                 sys.exit(0)
                 
