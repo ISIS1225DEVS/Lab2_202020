@@ -15,7 +15,7 @@ def test_carga():
     assert (lt.size(lst)==0),"la lista no empieza en 0"
 
 
-    try:
+    try:j
         with open (file,encoding="utf-8") as csvfile:
             reader=csv.DictReader(csvfile, dialect=dialect)
 

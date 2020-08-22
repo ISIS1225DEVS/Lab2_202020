@@ -33,13 +33,13 @@ def printList(lst):
         element = it.next(iterator)
         print(element['goodreads_book_id'])
 
-def less(element1, element2):
-    if int(element1['vote_count']) < int(element2['vote_count']):
+def less(element1, element2, criteria):
+    if float(element1['vote_'+criteria.lower]) < float(element2['vote_'+criteria.lower]):
         return True
     return False
 
-def greater (element1,element2):
-    if int(element1['vote_count']) > int(element2['vote_count']):
+def greater (element1,element2, criteria):
+    if float(element1['vote_'+criteria.lower]) > float(element2['vote_'+criteria.lower]):
         return True
     return False
 
