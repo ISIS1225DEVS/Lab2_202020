@@ -32,6 +32,7 @@ import csv
 from ADT import list as lt
 from DataStructures import listiterator as it
 from DataStructures import liststructure as lt
+from Sorting import insertionsort as sort
 
 from time import process_time 
 
@@ -120,13 +121,24 @@ def countElementsByCriteria(criteria, column, lst):
     """
     Retorna la cantidad de elementos que cumplen con un criterio para una columna dada
     """
-    return 0
+    t1_start = process_time() #tiempo inicial
+    counter = 0
+    for i in lst:
+        if criteria in i[column]:
+            counter += 1
+    t1_stop = process_time() #tiempo final
+    print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
+    return counter
 
 def orderElementsByCriteria(function, column, lst, elements):
     """
     Retorna una lista con cierta cantidad de elementos ordenados por el criterio
     """
-    return 0
+    t1_start = process_time() #tiempo inicial
+    sort.insertionSort(lst, function)
+    t1_stop = process_time() #tiempo final
+    print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
+    return lst[:elements]
 
 def main():
     """
@@ -142,7 +154,10 @@ def main():
         inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
         if len(inputs)>0:
             if int(inputs[0])==1: #opcion 1
-                lista = loadCSVFile("Data/test.csv") #llamar funcion cargar datos
+                lista = loadCSVFile("Data/theMoviesdb/AllMoviesCastingRaw.csv") 
+                lista = loadCSVFile("Data/theMoviesdb/AllMoviesDetailsCleaned.csv")
+                lista = loadCSVFile("Data/theMoviesdb/MoviesCastingRaw-small.csv")
+                lista = loadCSVFile("Data/theMoviesdb/SmallMoviesDetailsCleaned.csv")
                 print("Datos cargados, ",lista['size']," elementos cargados")
             elif int(inputs[0])==2: #opcion 2
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
