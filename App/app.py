@@ -37,12 +37,12 @@ from Sorting import insertionsort as sort
 from time import process_time 
 
 def less(element1, element2):
-    if int(element1['vote_average']) < int(element2['vote_average']):
+    if float(element1['vote_average']) < float(element2['vote_average']):
         return True
     return False
 
 def greater(element1, element2):
-    if int(element1['vote_average']) > int(element2['vote_average']):
+    if float(element1['vote_average']) > float(element2['vote_average']):
         return True
     return False
 
@@ -86,6 +86,7 @@ def printMenu():
     print("2- Contar los elementos de la Lista")
     print("3- Contar elementos filtrados por palabra clave")
     print("4- Consultar elementos a partir de dos listas")
+    print("5- Clasificar peliculas por votación")
     print("0- Salir")
 
 def countElementsFilteredByColumn(criteria, column, lst):
@@ -154,9 +155,9 @@ def main():
         inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
         if len(inputs)>0:
             if int(inputs[0])==1: #opcion 1
-                lista = loadCSVFile("Data/theMoviesdb/AllMoviesCastingRaw.csv") 
-                lista = loadCSVFile("Data/theMoviesdb/AllMoviesDetailsCleaned.csv")
-                lista = loadCSVFile("Data/theMoviesdb/MoviesCastingRaw-small.csv")
+                # lista = loadCSVFile("Data/theMoviesdb/AllMoviesCastingRaw.csv") 
+                # lista = loadCSVFile("Data/theMoviesdb/AllMoviesDetailsCleaned.csv")
+                # lista = loadCSVFile("Data/theMoviesdb/MoviesCastingRaw-small.csv")
                 lista = loadCSVFile("Data/theMoviesdb/SmallMoviesDetailsCleaned.csv")
                 print("Datos cargados, ",lista['size']," elementos cargados")
             elif int(inputs[0])==2: #opcion 2
@@ -181,29 +182,29 @@ def main():
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")
                 else:
-                    criteria1 = input('Ingrese 0 para las de mayor promedio o 1 para las de menor promedio')
-                    cant1 = input('Ingrese la cantidad de películas que desea ver por por el promedio de calificación\n')
-                    criteria2 = input('Ingrese 0 para las de mayor cantidad de votos o 1 para las de menor cantidad')
-                    cant2 = input('Ingrese la cantidad de películas que desea ver por por la cantidad de votos\n')
-                    try:
-                        if int(criteria1) == 0:
-                            prom = orderElementsByCriteria(greater, 'vote_average', lista, int(cant1))
-                        elif int(criteria1) == 0:
-                            prom = orderElementsByCriteria(less, 'vote_average', lista, int(cant1))
-                        if int(criteria2) == 0:
-                            cant = orderElementsByCriteria(greater, 'vote_count', lista, int(cant2))
-                        elif int(criteria2) == 0:
-                            prom = orderElementsByCriteria(less, 'vote_count', lista, int(cant2))
-                        print('Los resultados por promedio son:\n')
-                        print('-' * 30)
-                        for i in prom:
-                            print(i['title'], i['vote_average'])
-                        print('Los resultados por cantidad de votos son:\n')
-                        print('-' * 30)
-                        for i in cant:
-                            print(i['title'], i['vote_average'])
-                    except:
-                        print('Ha ocurrido un error al ingresar los parametros')
+                    criteria1 = input('Ingrese 0 para las de mayor promedio o 1 para las de menor promedio:\n')
+                    cant1 = input('Ingrese la cantidad de películas que desea ver por por el promedio de calificación:\n')
+                    criteria2 = input('Ingrese 0 para las de mayor cantidad de votos o 1 para las de menor cantidad:\n')
+                    cant2 = input('Ingrese la cantidad de películas que desea ver por por la cantidad de votos:\n')
+                    # try:
+                    if int(criteria1) == 0:
+                        prom = orderElementsByCriteria(greater, 'vote_average', lista, int(cant1))
+                    elif int(criteria1) == 0:
+                        prom = orderElementsByCriteria(less, 'vote_average', lista, int(cant1))
+                    if int(criteria2) == 0:
+                        cant = orderElementsByCriteria(greater, 'vote_count', lista, int(cant2))
+                    elif int(criteria2) == 0:
+                        prom = orderElementsByCriteria(less, 'vote_count', lista, int(cant2))
+                    print('Los resultados por promedio son:\n')
+                    print('-' * 30)
+                    for i in prom:
+                        print(i['title'], i['vote_average'])
+                    print('Los resultados por cantidad de votos son:\n')
+                    print('-' * 30)
+                    for i in cant:
+                        print(i['title'], i['vote_average'])
+                    # except:
+                    #     print('Ha ocurrido un error al ingresar los parametros')
             elif int(inputs[0])==0: #opcion 0, salir
                 sys.exit(0)
                 
