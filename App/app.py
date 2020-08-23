@@ -212,7 +212,7 @@ def orderElementsByCriteria(function, column, lst, elements):
 
 def iSort (lst:list, orden:str)->list: 
     
-    input ("Vamos a proceder a ordenar ascendentemente usando el metodo Insertion Sort, esto puede tomar algunos segundos o minutos. Clic para continuar")
+    input ("Vamos a proceder a ordenar usando el metodo Insertion Sort, esto puede tomar algunos segundos o minutos. Clic para continuar")
     listaOrdenada = []
     listaOrdenada=InsSort.insertionSort (lst, orden)
   
@@ -293,19 +293,18 @@ def main():
                 input ("Clic para cotinuar")
 
             elif int(inputs)==4: #opcion 4
-                 a="a"
+                 orden="a"
                  #print (lista1)
                  #input ("Clic para avanzar")
-                 lista3=iSort (lista1, a)
+                 lista3=iSort (lista1,orden)
                  print  ("Se ha ordenado la lista")
 
             elif int(inputs)==5: #opcion 5
-                if lista==None or lista['size']==0: #obtener la longitud de la lista
-                    print("La lista esta vacía")
-                else:   
-                    criteria =input('Ingrese el criterio de búsqueda\n')
-                    counter=countElementsFilteredByColumn(criteria, "nombre", lista) #filtrar una columna por criterio  
-                    print("Coinciden ",counter," elementos con el crtierio: ", criteria  )
+                 orden="d"
+                 #print (lista1)
+                 #input ("Clic para avanzar")
+                 lista3=iSort (lista1,orden)
+                 print  ("Se ha ordenado la lista")
             elif int(inputs)==6: #opcion 6
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")
