@@ -343,3 +343,16 @@ def subList (lst, pos, numelem):
         error.reraise (exp, 'List->subList: ')
 
 
+def less (n1,n2):
+    if min(n1,n2) == n1:
+        a=True
+    else:
+        a=False
+    return a
+
+def greater (n1,n2):
+    if max(n1,n2) == n1:
+        a=True
+    else:
+        a=False
+    return a 
