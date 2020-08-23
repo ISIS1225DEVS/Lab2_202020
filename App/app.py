@@ -32,6 +32,7 @@ import csv
 from ADT import list as lt
 from DataStructures import listiterator as it
 from DataStructures import liststructure as lt
+from Sorting import selectionsort as ss
 
 from time import process_time 
 
@@ -76,6 +77,7 @@ def printMenu():
     print("2- Contar los elementos de la Lista")
     print("3- Contar elementos filtrados por palabra clave")
     print("4- Consultar elementos a partir de dos listas")
+    print("5-Consultar el orden de la lista")
     print("0- Salir")
 
 def countElementsFilteredByColumn(criteria, column, lst):
@@ -111,13 +113,15 @@ def countElementsByCriteria(criteria, column, lst):
     """
     Retorna la cantidad de elementos que cumplen con un criterio para una columna dada
     """
+    
     return 0
 
 def orderElementsByCriteria(function, column, lst, elements):
     """
     Retorna una lista con cierta cantidad de elementos ordenados por el criterio
     """
-    return 0
+    ss.selectionSort(lst,(function,column))
+    return lst[0:elements-1]
 
 def main():
     """
