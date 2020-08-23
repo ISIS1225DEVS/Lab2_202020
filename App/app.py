@@ -125,21 +125,20 @@ def orderElementsByCriteria(function, column, lst, elements):
 def conocer_director(lst,lst2,nombre_director):
     """
     retorna: La lista de todas las películas dirigidas, El numero de las películas y El promedio de la calificación de sus películas.
-    """   
+    """
     avgsum= 0
     lista_peliculas=[]
     for director in lst:
         if director["director_name"]== nombre_director:
-            lista_id=[]
-            lista_id+= director["id"]
-            for pelicula in lst2:
-                for cada_id in lista_id:
-                    if cada_id == pelicula["id"]:
-                        lista_peliculas += pelicula["title"]
-                        avgsum+= pelicula["vote_average"]
-    avg= avgsum/len(lista_id)
+        lista_id=[]
+        lista_id+= director["id"]
+        for pelicula in lst2:
+            for cada_id in lista_id:
+                if cada_id == pelicula["id"]:
+                    lista_peliculas+= pelicula["title"]
+                    avgsum+= pelicula["vote_average"]
+    avg=avgsum/len(lista_id)
     return(lista_peliculas,len(lista_id),avg)
-
 def main():
     """
     Método principal del programa, se encarga de manejar todos los metodos adicionales creados
