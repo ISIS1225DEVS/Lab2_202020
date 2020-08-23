@@ -28,7 +28,7 @@ from ADT import list as lt
 def lessfunction(element1, element2, criteria):
     element1=element1[criteria]
     element2=element2[criteria]
-    if element1[:3] =< element2[:3]:
+    if element1[:3] <= element2[:3]:
         return 1
     else:
         return 0

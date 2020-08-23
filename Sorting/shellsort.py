@@ -35,7 +35,7 @@ Sedgewick: 1,5,19,41,109,209,929,2161,...
 def lessfunction(element1, element2, criteria):
     element1=element1[criteria]
     element2=element2[criteria]
-    if element1[:3] =< element2[:3]:
+    if element1[:3] <= element2[:3]:
         return 1
     else:
         return 0
@@ -58,7 +58,7 @@ def shellSortless(lst, lessfunction):
 def greaterfunction(element1, element2, criteria):
     element1=element1[criteria]
     element2=element2[criteria]
-    if element1[:3] => element2[:3]:
+    if element1[:3] >= element2[:3]:
         return 1
     else:
         return 0
@@ -71,7 +71,7 @@ def shellSortgreater(lst, greaterfunction):
     while (h >= 1):
         for i in range (h,n):
             j = i
-            while (j>=h) and lessfunction (lt.getElement(lst,j+1),lt.getElement(lst,j-h+1)):
+            while (j>=h) and greaterfunction(lt.getElement(lst,j+1),lt.getElement(lst,j-h+1)):
                 lt.exchange (lst, j+1, j-h+1)
                 j -=h
         h //=3              # h se decrementa en un tercio. cuando h es igual a 1, se comporta como insertionsort
