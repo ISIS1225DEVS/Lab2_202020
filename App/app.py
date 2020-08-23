@@ -47,7 +47,7 @@ def greater(element1, element2):
         return True
     return False
 
-def loadCSVFile (file, sep=";"):
+def loadCSVFile (file1, file2, sep=";"):
     """
     Carga un archivo csv a una lista
     Args:
@@ -68,14 +68,20 @@ def loadCSVFile (file, sep=";"):
     dialect = csv.excel()
     dialect.delimiter=sep
     try:
-        with open(file, encoding="utf-8") as csvfile:
-            spamreader = csv.DictReader(csvfile, dialect=dialect)
-            for row in spamreader: 
-                lt.addLast(lst,row)
+    
+        while
+        # with open(file1, encoding="utf-8") as csvfile1, open(file2, encoding="utf-8") as csvfile2:
+        #     spamreader1 = csv.DictReader(csvfile, dialect=dialect)
+        #     spamreader2 = csv.DictReader(csvfile, dialect=dialect)
+        #     for i in spamreader2:
+        #         spamreader1[i] = spamreader2[i]
+        #     for row in spamreader1: 
+        #         lt.addLast(lst,row)
     except:
         print("Hubo un error con la carga del archivo")
     t1_stop = process_time() #tiempo final
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
+    print(lt.getElement(lst, 1))
     return lst
 
 
@@ -169,7 +175,7 @@ def main():
                 # lista = loadCSVFile("Data/theMoviesdb/AllMoviesDetailsCleaned.csv")
                 # lista = loadCSVFile("Data/theMoviesdb/MoviesCastingRaw-small.csv")
                 # lista = loadCSVFile("Data/theMoviesdb/SmallMoviesDetailsCleaned.csv")
-                lista = loadCSVFile("Data/theMoviesdb/short.csv")
+                lista = loadCSVFile("Data/theMoviesdb/short.csv", "Data/theMoviesdb/shortcasting.csv")
                 print("Datos cargados, ",lista['size']," elementos cargados")
             elif int(inputs[0])==2: #opcion 2
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
