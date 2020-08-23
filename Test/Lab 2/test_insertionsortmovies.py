@@ -13,19 +13,19 @@ import csv
 #list_type = 'ARRAY_LIST'
 list_type = 'SINGLE_LINKED'
 
-lst_moovie = lt.newList(list_type)
-mooviefile = cf.data_dir + 'theMoviesdb/AllMoviesDetailsCleaned 2.csv'
+lst_movie = lt.newList(list_type)
+moviefile = cf.data_dir + 'theMoviesdb/SmallMoviesDetailsCleaned2.csv'
 
 
 def setUp():
-    print('Loading books')
-    loadCSVFile(mooviefile, lst_moovie)
-    print(lst_moovie['size'])
+    print('Loading movies')
+    loadCSVFile(moviefile, lst_movie)
+    print(lst_movie['size'])
 
 
 def tearDown():
        pass
-#vote_average;vote_count
+
 
 def loadCSVFile(file, lst):
     input_file = csv.DictReader(open(file, encoding = "utf-8"))
@@ -39,7 +39,7 @@ def printList(lst):
         print(element['vote_average'])
 
 def less(element1, element2):
-    if int(element1['vote_average']) < int(element2['vote_average']):
+    if float(element1['vote_average']) < float(element2['vote_average']):
         return True
     return False
 
@@ -48,18 +48,18 @@ def test_sort():
     Lista con elementos en orden aleatorio
     """
     print("sorting ....")
-    sort.insertionSort(lst_moovie, less)
+    sort.insertionSort(lst_movie, less)
 
 def test_loading_CSV_y_ordenamiento():
     """
     Prueba que se pueda leer el archivo y que despues de relizar el sort, el orden este correcto
     """
     setUp()
-    sort.insertionSort(lst_moovie,less)
-    while not (lt.isEmpty(lst_moovie)):
-        x = int(lt.removeLast(lst_moovie)['vote_average'])
-        if not (lt.isEmpty(lst_moovie)):
-            y = int(lt.lastElement(lst_moovie)['vote_average'])
+    sort.insertionSort(lst_movie,less)
+    while not (lt.isEmpty(lst_movie)):
+        x = float(lt.removeLast(lst_movie)['vote_average'])
+        if not (lt.isEmpty(lst_movie)):
+            y = float(lt.lastElement(lst_movie)['vote_average'])
         else:
             break
-        assert x > y
+        assert x >= y
