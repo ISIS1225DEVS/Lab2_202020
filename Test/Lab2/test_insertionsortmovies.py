@@ -26,17 +26,48 @@ from Sorting import insertionsort as sort
 from DataStructures import listiterator as it
 from ADT import list as lt
 import csv
+from DataStructures import arraylist as slt
+from DataStructures import liststructure as lt
+
 
 #list_type = 'ARRAY_LIST'
 list_type = 'SINGLE_LINKED'
 
 lst_books = lt.newList(list_type)
-booksfile = cf.data_dir + 'GoodReads/SmallMoviesDetailsCleaned.csv'
+
+
+
+@pytest.fixture
+def test_carga ():
+    lista=[]
+    lst= lt.newList()
+
+    file= 'Data/GoodReads/MoviesCastingRaw-Small.csv'
+    sep=';'
+    dialect=csv.excel()
+    dialect.delimiter=sep
+
+    assert (lt.size(lst)==0), "La lista no empieza en cero"
+    try:
+        with open (file, encoding="utf-8")as csvfile:
+            reader= csv.DictReader(csvfile, dialect=dialect)
+
+            for row in reader:
+                lista.append(row)
+                lt.addLast(lst, row)
+
+    except:
+        assert False, "Se presento un error al cargar el archivo"
+
+    assert len(lista)== lt.size(lst), "Son difererentes tamanios"
+
+    for i in range(len(lista)):
+        assert lt.getElement(lst, i+1)==lista[i], "Las listas no estan en el mismo orden "
 
 
 def setUp():
-    print('Loading movies')
-    loadCSVFile(booksfile, lst_books)
+    print('Loading books')
+    loadCSVFile(lista, lst_books)
     print(lst_books['size'])
 
 
@@ -53,10 +84,10 @@ def printList(lst):
     iterator = it.newIterator(lst)
     while it.hasNext(iterator):
         element = it.next(iterator)
-        print(element['budget'])
+        print(element['goodreads_book_id'])
 
 def less(element1, element2):
-    if int(element1['budget']) < int(element2['budget']):
+    if int(element1['goodreads_book_id']) < int(element2['goodreads_book_id']):
         return True
     return False
 
@@ -74,9 +105,9 @@ def test_loading_CSV_y_ordenamiento():
     setUp()
     sort.insertionSort(lst_books,less)
     while not (lt.isEmpty(lst_books)):
-        x = int(lt.removeLast(lst_books)['budget'])
+        x = int(lt.removeLast(lst_books)['goodreads_book_id'])
         if not (lt.isEmpty(lst_books)):
-            y = int(lt.lastElement(lst_books)['budget'])
+            y = int(lt.lastElement(lst_books)['goodreads_book_id'])
         else:
             break
         assert x > y
