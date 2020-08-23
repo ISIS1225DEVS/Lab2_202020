@@ -1,271 +1,148 @@
-def newlist(cmpfunction, list_name):
-    """
-    Crea una array list vacia
+import pytest 
+import config 
+import csv
+from DataStructures import arraylist as slt
 
-    arg:
-        -cmpfunction: Funcion de comparacion entre los elementos.
-        -list_name: Nombre que desea asignarle a la lista.
-    """
-    list_name = {'elements':[], 'size':0, 'type':'ARRAY_LIST', 'cmpfunction':cmpfunction}
-    return list_name
+Datos_agregar=loadCSV('Data\est.csv', cmpfunction, "test")
 
-def addfirst(element,lst):
-    """
-    Agrega un elemento al inicio de la lista.
+movies=loadCSV('Data\SmallMoviesDetailsCleaned.csv', cmpfunction, "movies")
 
-    arg:
-        -element: El elemento que se desea agregar. 
-    
-    raise:
-        -No se pudo a gregar el elemento.
-    """
+lst=lst()
+
+@pytest.fixture
+def lst ():
+    lst = slt.newList(cmpfunction)
+    return lst
+
+def loadCSV(file, cmpfunction,name,sep=','):
+    name=lst()
+    t1_start = process_time() #tiempo inicial
+    dialect = csv.excel()
+    dialect.delimiter=sep
     try:
-        lst['elements'].insert(0,element)
-        lst['size']+=1
+        with open(file, encoding='utf-8') as csvfile:
+            reader=csv.DictReader(csvfile, dialect=dialect)
+            for row in reader:
+                slt.addLast(movies, row)
     except:
-        raise Exception('No se pudo agregar el elemento. Por favor verifique la lista')
+        print('Ocurrio un error en la carga de archivos')
+    t1_stop=process_time()
+    print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
+    return movies
+    assert lst != 0
 
-def addLast(element,lst):
-    """
-    Agrega un elemento al final de la lista.
 
-    arg:
-        -element: El elemento que se desea agregar
-        -lst: La lista que se desea modificar
-    
-    raise:
-        -No se pudo agregar el elemento.
-    """
-    try:
-        lst['elements'].insert(0,element)
-        lst['size']+=1
-    except:
-        raise Exception('No se pudo agrgar el elemento. Por favor verifique la lista')
 
-def isEmpty(lst):
-    """
-    Determina sí una lista esta vacia o no.
-
-    arg:
-        -lst: La lista de la cual se desea saber esa informacion.
-    
-    raise:
-        -Existe un problema con la lista.
-    """
-    try:
-        return lst['size'] == 0
-    except:
-        raise Exception('Existe un problema con la lista. Verifique la lista')
-
-def size(lst):
-    """
-    Determina la longitud de la lista.
-
-    arg:
-        -lst: La lista de la cual se desa saber su longitud.
-
-    raise:
-        -Existe un problema con la lista.
-    """
-    try:
-        return lst['size']
-    except:
-        raise Exception('Existe un problema con la lista. Verifique la lista')
-
-def firstElement(lst):
-    """
-    Retorna el primer elemento de la lista.
-
-    arg: 
-        -lst: La lista de la cual se desea conocer su primer elemento.
-    
-    raise:
-        -Existe un problema con la lista.
-    """
-    try:
-        return lst['elements'][0]
-    except:
-        raise Exception('Existe un problema con la lista. Verifique la lista')
-
-def lastElement(lst):
-    """
-    Retorna el ultimo elemento de la lista.
-
-    arg:
-        -lst: La lista de la cual se desea saber su ultimo elemento.
-    
-    raise:
-        -Existe un problema con la lista
-    """
-    try:
-        return lst['elements'][lst['size']-1]
-    except:
-        raise Exception('Existe un problema con la lista. Verifique la lista')
-
-def getElement(pos, lst):
-    """
-    Retorna el elemento de la posicion indicada
-
-    arg:
-        -lst: La lista de la cual se desea conocer el elemento
-        -pos: Posicion que se desea conocer
-
-    Raise:
-        -Problema con la lista o la posicion
-    """
-    try:
-        return lst['elements'][pos-1]
-    except:
-        if pos not in range(0,lst['size']+1):
-            raise Exception('La longitud de la lsita es menor que la posicion pasada por parametro')
-        else:
-            raise Exception('Existe un problema con la lista. Verifique la lista')
-
-def deleteElement(pos, lst)
-"""
-Elimina el eleemnto de la posicion indicada.
-
-arg:
-    -lst: Lista en la cual se desea remover un elemento.
-    -pos: posicion del elemento el cual se desea eliminar.
-
-Raises:
-    -Problema con la lista o la posicion.
-"""
-try:
-    lst['elements'].pop(pos-1)
-    lst['size']-=1
-except:
-    if pos not in range(0,lst['size']+1):
-        raise Exception('La posicion pasada por parametro es mayor que la longitud de la lista')
+def cmpfunction(element1, element2):
+    if element1['id'] == element2['id']:
+        return 0
+    elif element1['id'] < element2['id']:
+        return -1
     else:
-        raise Exception('Existe un problema con la lista. Verifique la lista')
+        return 1
 
-def removeFirst(lst):
-    """
-    Elimina el primer elemento de una lista.
-    arg:
-        -lst: La lista de la cual se desea eliminar el primer elemento.
+
+def test_empty (lst):
+    assert slt.isEmpty(movies) == True
+    assert slt.size(movies) == 0 
+
+
+
+def test_addFirst (movies, Datos_agregar):
+    size=slt.size(movies)
+    slt.addFirst (lst, Datos_agregar['elements'][0])
+    assert slt.size(movies) == size+1 
+    slt.addFirst (movies, Datos_agregar['elements'][1])
+    assert slt.size(movies) == size+2
+    movie = slt.firstElement(movies)
+    assert movie == Datos_agregar['elements'][1]
+
+
+
+
+def test_addLast (movies, Datos_agregar):
+    assert slt.isEmpty(lst) == True
+    size= slt.size(movies) == 0
+    slt.addLast (movies, Datos_agregar['elements'][2])
+    assert slt.size(movies) == size+1
+    slt.addLast (movies, Datos_agregar['elements'][3])
+    assert slt.size(movies) == size+2
+    movie = slt.firstElement(movies)
+    assert movie == Datos_agregar['elements'][1]
+    movie = slt.lastElement(movies)
+    assert movie == Datos_agregar['elements'][3]
+
+
+
+
+def test_getElement(movies, Datos_agregar):
+    book = slt.getElement(movies, 1)
+    assert book ==  Datos_agregar['elements'][0]
+
+
+
+
+
+def test_removeFirst (movies, Datos_agregar):
+    size=slt.size(movies)
+    slt.removeFirst(movies)
+    assert slt.size(movies) == (size-1)
+    movie= slt.firstElement(movies)
+    assert movie == Datos_agregar['elements'][0]
+
+
+
+def test_removeLast (movies, Datos_agregar):
+    size=slt.size(movies) 
+    slt.removeLast(movies)
+    assert slt.size(movies) == size-1
+    movie = slt.getElement(movies, size-1)
+    assert movie  == Datos_agregar['elements'][2]
+
+
+
+def test_insertElement (movies, Datos_agregar):
+    size= slt.size(movies)
+    slt.insertElement (movies, Datos_agregar['elements'][0], 2)
+    assert slt.size(lst) == size+1
+    slt.insertElement (movies, Datos_agregar['elements'][1], 3)
+    assert slt.size(lst) == size+2
+    movie = slt.getElement(movies, 2)
+    assert movie == Datos_agregar['element'][0]
+    movie = slt.getElement(movie, 3)
+    assert movie == Datos_agregar['element'][1]
+
+
+
+def test_isPresent (movies, Datos_agregar):
+    movie=slt.getElement(Datos_agregar, 1)
+    print(slt.isPresent (movies, movie))
+    assert slt.isPresent (movies, movie) > 0
+    assert slt.isPresent (movies, movie) == 0
     
-    Raises:
-        -problema con la lista
-    """
-    try:
-        lst['elements'].pop(0)
-        lst['size']-=1
-    except:
-        raise Exception('Existe un problema con la lista. Verifique la lista')
-
-def removeLast(lst):
-    """
-    Elimina el ultimo elemento.
-    arg:
-        -lst: La lista de la cual se desea eliminar el ultimo elemento.
-    
-    Raises:
-        -problema con la lista
-    """
-    try:
-        lst['elements'].pop(lst['size']-1)
-        lst['size']-=1
-    except:
-        raise Exception('Existe un problema con la lista. Verifique la lista')
-
-def insertElement(element, pos, lst):
-    """
-    Inserta un elemento en la posicion indicada.
-    arg:
-        -element: Elemento que se desea insertar.
-        -pos: Posicion en la cual se desea insertar.
-        -lst: Lista en la cual se desea insertar el elemento.
-    Raises:
-        -problema con la lista.
-    """
-    try:
-        lst['elements'].insert(pos-1, element)
-        lst['size']+=1
-    except:
-        raise Exception('Existe un problema con la lista. Verifique la lista')
-
-def isPresent(element, lst):
-    """
-    Determina sí un elemento esta presente en la lista
-    arg:
-        -element: El elemento que se desea buscar.
-        -lst: La lista que se esta examinando.
-    Raises:
-        -problema con la lista
-    """
-    try:
-        top=lst['size']
-        exist=False
-        if top > 0:
-            i=0
-            while i < top and not exist:
-                if (lst['cmpfunction'](element,lst['elements'][i])):
-                    exist=True
-        return exist
-    except:
-        raise Exception('Existe un problema con la lista. Verifique la lista')
-
-def changeInfo(pos, newinfo, lst):
-    """
-    Cambia la informacion de un elmento.
-    arg:
-        -pos: Posicion del elemeneto del que se desa actualizar la informacion.
-        -newinfo: Informacion actualizada.
-        -lst: Lista sobre la que se hace el proceso.
-
-    Raises:
-        -Problema con la lista.
-        -Problema con las posiciones pasadas por parametro.
-    """
-    try:
-        lst['elments'][pos-1]=newinfo
-    except:
-        if pos not in range(0,lst['size']+1):
-            raise Exception('La posicion no se encuentra en el rango de la longitud de la lista')
-        else:
-            raise Exception('Existe un problema con la lista. Verifique la lista')
-
-def exchange(pos1, pos2, lst):
-    """
-    Cambia la posicion de dos elementos.
-    arg:
-        -pos1: Posicion del primer elemento.
-        -pos2: Posicion del segundo elemento.
-        -lst: Lista sobre la cual se haced el intercambio.
-    Raises:
-        -Problema con la lista.
-        -Problema con las posiciones pasadas por parametro.
-    """
-    try:
-        element1=lst['elements'][pos1-1]
-        element2=lst['elements'][pos2-1]
-        changeInfo(pos1, element2, lst)
-        changeInfo(pos2, element2, lst)
-        return lst
-    except:
-        if pos1 not in range(0,lst['size']+1) or pos2 not in range(0,lst['size']+1):
-            raise Exception('Una de las posiciones se sale de el rango de la lista')
-        else:
-            raise Exception('Existe un problema con la lista. Verifique la lista')
-
-def subList(size, pos, lst):
-    """
-    Se retorna una lista la cual inicia en la posicion dada y termina en la longitud de elementos.
-    arg:
-        -size: La longitud de la lista.
-        -pos: Posicio desde la cual se desea crear la sublista.
-        -lst: Lista sobre la cual se hace el proceso.
-
-    Raises:
-        -Posicion fuera de lista.
-        -Problema con la lista.
-    """
-    try:
-        subList=newlist(lst['cmpfunction'], 'sublista')
-        element=pos-1
-        i=1
 
 
+def test_deleteElement (movies, Datos_agregar):
+    pos = slt.isPresent (movies, )
+    assert pos > 0
+    book = slt.getElement(lstbooks, pos)
+    assert book == books[2]
+    slt.deleteElement (lstbooks, pos)
+    assert slt.size(lstbooks) == 4
+    book = slt.getElement(lstbooks, pos)
+    assert book == books[3]
+
+
+def test_changeInfo (movies, Datos_agregar):
+    movie=slt.getElement(Datos_agregar, 3)
+    slt.changeInfo (movies, 1, movie)
+    movie_inf = slt.getElement(movies, 1)
+    assert movie == movie_inf
+
+
+def test_exchange (movies, Datos_agregar):
+    book1 = slt.getElement(lstbooks, 1)
+    book5 = slt.getElement(lstbooks, 5)
+    slt.exchange (lstbooks, 1, 5)
+    assert slt.getElement(lstbooks, 1) == book5
+    assert slt.getElement(lstbooks, 5) == book1

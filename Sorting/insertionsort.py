@@ -23,22 +23,32 @@
 import config as cf
 from ADT import list as lt
 
-#less fuction
+#less and greater fuction
 
 def lessfunction(element1, element2, criteria):
     element1=element1[criteria]
     element2=element2[criteria]
-    if element1[:3] =< element2[:3]:
+    if element1 <= element2:
         return 1
     else:
         return 0
 
-def insertionSort (lst, lessfunction): 
+def greaterfunction(element1, element2, criteria):
+    element1=element1[criteria]
+    element2=element2[criteria]
+    if element1 >= element2:
+        return 1
+    else:
+        return 0
+
+#funcion de ordenamiento
+
+def insertionSort (lst, lessfunction, criteria): 
     size =  lt.size(lst) 
     pos1 = 1
     while pos1 <= size:
         pos2 = pos1
-        while (pos2 >1) and (lessfunction ([lt.getElement(lst, pos2)],[lt.getElement(lst, pos2-1)])):
+        while (pos2 >1) and (lessfunction (lt.getElement(lst, pos2),lt.getElement(lst, pos2-1), criteria)):
             lt.exchange (lst, pos2, pos2-1)
             pos2 -= 1
         pos1 += 1
