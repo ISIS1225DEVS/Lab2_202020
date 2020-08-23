@@ -56,6 +56,10 @@ def less(element1, element2):
     return False
 
 
+def greater(element1, element2):
+    return not(less(element1, element2))
+    
+
 def probarOrden(lst):
     """
     Revisa que la lista que se pasa por parametro esté en el orden correcto en el cual los libros deberian estar
