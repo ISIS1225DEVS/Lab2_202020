@@ -32,7 +32,7 @@ import csv
 from ADT import list as lt
 from DataStructures import listiterator as it
 from DataStructures import liststructure as lt
-from Sorting import insertionsort as sort
+from Sorting import selectionsort as sort
 
 from time import process_time 
 
@@ -134,9 +134,9 @@ def countElementsByCriteria(criteria, column, lst):
 def orderElementsByCriteria(function, column, lst, elements):
     """
     Retorna una lista con cierta cantidad de elementos ordenados por el criterio
-    """
+    """    
     t1_start = process_time() #tiempo inicial
-    sort.insertionSort(lst, function)
+    sort.selectionSort(lst, function)
     t1_stop = process_time() #tiempo final
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
     return lst[:elements]
