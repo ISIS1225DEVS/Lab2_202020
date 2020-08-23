@@ -75,7 +75,7 @@ def loadCSVFile (file,file2, sep=";"):
     t1_start = process_time() #tiempo inicial
     dialect = csv.excel()
     dialect.delimiter=sep
-    try:
+    if 1:
         with open(file, encoding="utf-8") as csvfile:
             spamreader = csv.DictReader(csvfile, dialect=dialect)
             for row in spamreader:
@@ -86,9 +86,9 @@ def loadCSVFile (file,file2, sep=";"):
                     for row2 in spamreader:
                         nombre=row2["director_name"]
                         print(nombre)
-                        mg.add_Movie_director(catalog,nombre,row, mg.compareauthors)
+                        posicion= lt.isPresent(catalog["Directores"],a)
                 
-    except:
+    else:
         print("Hubo un error con la carga del archivo")
     t1_stop = process_time() #tiempo final
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
