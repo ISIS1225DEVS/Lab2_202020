@@ -1,24 +1,3 @@
-"""
- * Copyright 2020, Departamento de sistemas y Computación, Universidad de Los Andes
- * 
- *
- * Desarrolado para el curso ISIS1225 - Estructuras de Datos y Algoritmos
- *
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- """
-
 
 import pytest 
 import config 
@@ -27,48 +6,36 @@ import config
 from ADT import list as lt
 
 
-
-def cmpfunction (element1, element2):
+"""def cmpfunction (element1, element2):
     if element1['book_id'] == element2['book_id']:
         return 0
     elif element1['book_id'] < element2['book_id']:
         return -1
     else:
-        return 1
+        return 1"""
 
-
-@pytest.fixture
-def lst ():
-    # lst = lt.newList('SINGLE_LINKED', cmpfunction)
-    lst = lt.newList('ARRAY_LIST', cmpfunction)
+@pytest.fixture 
+def lstmoviesDetails (file="Data/SmallMoviesDetailsCleaned.csv"):
+    lst = lt.newList("ARRAY_LIST")
+    try:
+        with open(file, encoding="utf-8") as csvfile:
+            spamreader = csv.DictReader(csvfile, dialect=dialect)
+            for row in spamreader: 
+                lst.addLast(lst,row)
+    except:
+        print("Hubo un error con la carga del archivo")
     return lst
 
 
 @pytest.fixture
-def books ():
-    books = []
-    books.append({'book_id':'1', 'book_title':'Title 1', 'author':'author 1'})
-    books.append({'book_id':'2', 'book_title':'Title 2', 'author':'author 2'})
-    books.append({'book_id':'3', 'book_title':'Title 3', 'author':'author 3'})
-    books.append({'book_id':'4', 'book_title':'Title 4', 'author':'author 4'})
-    books.append({'book_id':'5', 'book_title':'Title 5', 'author':'author 5'})
-    print (books[0])
-    return books
-
-
-@pytest.fixture
-def lstbooks(books):
-    lst = lt.newList('ARRAY_LIST', cmpfunction)
-    # lst = lt.newList('SINGLE_LINKED', cmpfunction)
-    for i in range(0,5):    
-        lt.addLast(lst,books[i])    
+def lst ():
+    lst = lt.newList('ARRAY_LIST')
     return lst
 
 
 def test_empty (lst):
     assert lt.isEmpty(lst) == True
     assert lt.size(lst) == 0
-
 
 
 
