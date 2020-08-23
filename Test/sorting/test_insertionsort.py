@@ -55,6 +55,10 @@ def less(element1, element2):
         return True
     return False
 
+def greater(element1, element2):
+    if int(element1['book_id']) > int(element2['book_id']):
+        return True
+    return False
 
 def probarOrden(lst):
     """
@@ -248,8 +252,6 @@ def test_agregarYquitar():
         probarOrden(lst)
     sort.insertionSort(lst,less)
     probarOrden(lst)
-    
-    
 
-    
-    
+
+test_randomElements()  

@@ -81,3 +81,4 @@ def test_loading_CSV_y_ordenamiento():
             break
         assert x > y
 
+test_loading_CSV_y_ordenamiento()

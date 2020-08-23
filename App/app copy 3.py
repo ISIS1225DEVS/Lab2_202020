@@ -33,6 +33,7 @@ from ADT import list as lt
 from DataStructures import listiterator as it
 from DataStructures import liststructure as lt 
 from Sorting import insertionsort as sort
+import Moviecatalog as mg
 
 from time import process_time 
 
@@ -55,7 +56,7 @@ def greater2(element1, element2):
         return True
     return False
 
-def loadCSVFile (file, sep=";"):
+def loadCSVFile (file,file2, sep=";"):
     """
     Carga un archivo csv a una lista
     Args:
@@ -69,7 +70,7 @@ def loadCSVFile (file, sep=";"):
     Returns: None  
     """
     #lst = lt.newList("ARRAY_LIST") #Usando implementacion arraylist
-    lst = lt.newList() #Usando implementacion linkedlist
+    catalog=mg.newCatalog()#Usando implementacion linkedlist
     print("Cargando archivo ....")
     t1_start = process_time() #tiempo inicial
     dialect = csv.excel()
@@ -77,13 +78,34 @@ def loadCSVFile (file, sep=";"):
     try:
         with open(file, encoding="utf-8") as csvfile:
             spamreader = csv.DictReader(csvfile, dialect=dialect)
-            for row in spamreader: 
-                lt.addLast(lst,row)
+            for row in spamreader:
+                lt.addLast(catalog["Peliculas"],row)
+        
+                with open(file2, encoding="utf-8") as csvfile:
+                    spamreader = csv.DictReader(csvfile, dialect=dialect)
+                    for row2 in spamreader:
+                        nombre=row2["director_name"]
+                        print(nombre)
+                        mg.add_Movie_director(catalog,nombre,row, mg.compareauthors)
+                
     except:
         print("Hubo un error con la carga del archivo")
     t1_stop = process_time() #tiempo final
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
-    return lst
+    count=1
+    print(lt.size(catalog["Directores"]))
+
+    iterador3 = it.newIterator(catalog["Directores"])
+    while it.hasNext(iterador3) and count==1:
+        director=it.next(iterador3) 
+        print(director["name"]["Peliculas"])
+        count+=1
+
+    catalog["Directores"]
+    return catalog
+
+
+
 
 
 def printMenu():
@@ -222,10 +244,10 @@ def main():
         inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
         if len(inputs)>0:
             if int(inputs[0])==1: #opcion 1
-                lista = loadCSVFile("Data/test2.csv") #llamar funcion cargar datos
-                lista2=loadCSVFile("Data/test3.csv")
-                print("Datos cargados, ",lista['size']," elementos cargados")
-                print("Datos cargados, ",lista2['size']," elementos cargados")
+            
+                lista = loadCSVFile("Data/test2.csv","Data/test3.csv") #llamar funcion cargar datos
+                print("Datos cargados, ",lt.size(lista["Peliculas"])," elementos cargados")
+                
             elif int(inputs[0])==2: #opcion 2
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")    

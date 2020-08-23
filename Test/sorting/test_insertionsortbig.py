@@ -64,8 +64,10 @@ def test_sort():
     """
     Lista con elementos en orden aleatorio
     """
+    setUp()
     print("sorting ....")
     sort.insertionSort(lst_books, less)
+    print("hola")
 
 def test_loading_CSV_y_ordenamiento():
     """
@@ -81,3 +83,4 @@ def test_loading_CSV_y_ordenamiento():
             break
         assert x > y
 
+test_sort()

@@ -55,7 +55,11 @@ def less(element1, element2):
         return True
     return False
 
-
+def less(element1, element2):
+    if int(element1['book_id']) < int(element2['book_id']):
+        return True
+    return False
+    
 def probarOrden(lst):
     """
     Revisa que la lista que se pasa por parametro esté en el orden correcto en el cual los libros deberian estar
@@ -248,8 +252,7 @@ def test_agregarYquitar():
         probarOrden(lst)
     sort.quickSort(lst,less)
     probarOrden(lst)
-    
+test_agregarYquitar()
     
 
-    
     

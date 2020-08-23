@@ -80,4 +80,10 @@ def test_loading_CSV_y_ordenamiento():
         else:
             break
         assert x > y
-
+    counter=1
+    iterador=it.newIterator(lst_books)
+    while it.hasNext(iterador) and counter<=10:
+        elemento=it.next(iterador)
+        print(elemento)
+        counter+=1
+test_loading_CSV_y_ordenamiento()
