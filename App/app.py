@@ -128,7 +128,6 @@ def conocer_director(lst,lst2,nombre_director):
     """
     avgsum= 0
     lista_peliculas=[]
-    
     for director in lst:
         if director["director_name"]== nombre_director:
         lista_id=[]
