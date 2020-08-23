@@ -36,7 +36,7 @@ from DataStructures import liststructure as lt
 from time import process_time 
 
 
-def loadCSVFile (file, sep=";"):
+def loadCSVFile (file, lst,Type='SINGLELINKED_LIST',sep=";"):
     """
     Carga un archivo csv a una lista
     Args:
@@ -50,7 +50,7 @@ def loadCSVFile (file, sep=";"):
     Returns: None  
     """
     #lst = lt.newList("ARRAY_LIST") #Usando implementacion arraylist
-    lst = lt.newList() #Usando implementacion linkedlist
+    lst = lt.newList(Type) #Usando implementacion linkedlist
     print("Cargando archivo ....")
     t1_start = process_time() #tiempo inicial
     dialect = csv.excel()
@@ -64,7 +64,6 @@ def loadCSVFile (file, sep=";"):
         print("Hubo un error con la carga del archivo")
     t1_stop = process_time() #tiempo final
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
-    print (lst)
     return lst
     
 
@@ -113,7 +112,11 @@ def countElementsByCriteria(criteria, column, lst):
     """
     Retorna la cantidad de elementos que cumplen con un criterio para una columna dada
     """
-    
+    meter=0
+    pos=1
+    size=lt.size(lst)
+    while pos < size:
+        movie=lt.getElement(lst, pos)
     return 0
 
 def orderElementsByCriteria(function, column, lst, elements):
@@ -122,23 +125,31 @@ def orderElementsByCriteria(function, column, lst, elements):
     """
     return 0
 
-def conocer_director(lst,lst2,nombre_director):
+def conocer_director(lst,lst2,name_director):
     """
     retorna: La lista de todas las películas dirigidas, El numero de las películas y El promedio de la calificación de sus películas.
     """
     avgsum= 0
+    info_peliculas=[]
     lista_peliculas=[]
-    for director in lst:
-        if director["director_name"]== nombre_director:
-        lista_id=[]
-        lista_id+= director["id"]
-        for pelicula in lst2:
-            for cada_id in lista_id:
-                if cada_id == pelicula["id"]:
-                    lista_peliculas+= pelicula["title"]
-                    avgsum+= pelicula["vote_average"]
-    avg=avgsum/len(lista_id)
-    return(lista_peliculas,len(lista_id),avg)
+    pos=1
+    top=lt.size(lst)
+    while pos < size
+        movie=lt.getElement(lst, pos)
+        if movie['directorname'] == name_director:
+            info_peliculas.append(movie["id"])
+        pos+=1
+    pos=1
+    i=0
+    while pos < size:
+        movie=lt.getElement(lst2, pos)
+        if movie['id'] == info_peliculas[i]['id']:
+            lista_peliculas.append(movie['title'])
+            avgsum+= pelicula["vote_average"]
+        pos+=1
+    avg=avgsum/len(info_peliculas)
+    return(lista_peliculas,len(info_peliculas),avg)
+
 def main():
     """
     Método principal del programa, se encarga de manejar todos los metodos adicionales creados
@@ -147,14 +158,23 @@ def main():
     Args: None
     Return: None 
     """
-    lista = lt.newList()   # se require usar lista definida
+    lista = lt.newList('SINGLELINKED_LIST')   # se require usar lista definida
+    lista2 = lt.newList('SINGLELINKED_LIST')
     while True:
         printMenu() #imprimir el menu de opciones en consola
         inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
         if len(inputs)>0:
             if int(inputs[0])==1: #opcion 1
-                lista = loadCSVFile("Data/test.csv") #llamar funcion cargar datos
-                print("Datos cargados, ",lista['size']," elementos cargados")
+                print("\n seleccione 1 para cargar la lista 1 o 2 para cargar la lista 2")
+                lista_cargar=input('Seleccione la lista a cargar:\n')
+                if lista_cargar == "1":
+                    lista=loadCSVFile(file='Data\MoviesCastingRaw-small.csv', lista)
+                    print("Datos cargados, ",lista['size']," elementos cargados")
+                elif lista_cargar == '2':
+                    lista2=loadCSVFile(file='Data\SmallMoviesDetailsCleaned.csv', lista2)
+                    print("Datos cargados, ",lista2['size']," elementos cargados")
+                else:
+                    print('selecione una opcion valida')
             elif int(inputs[0])==2: #opcion 2
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")    
