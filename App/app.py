@@ -1,6 +1,6 @@
 """
- * Copyright 2020, Departamento de sistemas y Computación, Universidad de Los Andes
- * 
+ * Copyright 2020, Departamento de sistemas y Computación, Universidad de Los 
+ *Andes 
  * Contribución de:
  *
  * Cristian Camilo Castellanos
@@ -23,7 +23,8 @@
  """
 
 """
-  Este módulo es una aplicación básica con un menú de opciones para cargar datos, contar elementos, y hacer búsquedas sobre una lista .
+  Este módulo es una aplicación básica con un menú de opciones para cargar 
+  datos, contar elementos, y hacer búsquedas sobre una lista .
 """
 
 import config as cf
@@ -55,7 +56,8 @@ def loadCSVFile (file, sep=";"):
         sep = ";"
             Separador utilizado para determinar cada objeto dentro del archivo
         Try:
-        Intenta cargar el archivo CSV a la lista que se le pasa por parametro, si encuentra algun error
+        Intenta cargar el archivo CSV a la lista que se le pasa por parametro,
+        si encuentra algun error
         Borra la lista e informa al usuario
     Returns: None  
     """
@@ -101,7 +103,8 @@ def countElementsFilteredByColumn(criteria, column, lst):
             Lista en la cual se realizará el conteo, debe estar inicializada
     Return:
         counter :: int
-            la cantidad de veces ue aparece un elemento con el criterio definido
+            la cantidad de veces ue aparece un elemento con el criterio
+            definido
     """
     if lst['size']==0:
         print("La lista esta vacía")  
@@ -112,7 +115,7 @@ def countElementsFilteredByColumn(criteria, column, lst):
         iterator = it.newIterator(lst)
         while  it.hasNext(iterator):
             element = it.next(iterator)
-            if criteria.lower() in element[column].lower(): #filtrar por palabra clave 
+            if criteria.lower() in element[column].lower():  
                 counter+=1           
         t1_stop = process_time() #tiempo final
         print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
@@ -120,7 +123,8 @@ def countElementsFilteredByColumn(criteria, column, lst):
 
 def countElementsByCriteria(criteria, column, lst):
     """
-    Retorna la cantidad de elementos que cumplen con un criterio para una columna dada
+    Retorna la cantidad de elementos que cumplen con un criterio para una 
+    columna dada
     """
     t1_start = process_time() #tiempo inicial
     counter = 0
@@ -133,19 +137,25 @@ def countElementsByCriteria(criteria, column, lst):
 
 def orderElementsByCriteria(function, column, lst, elements):
     """
-    Retorna una lista con cierta cantidad de elementos ordenados por el criterio
-    """    
+    Retorna una lista con cierta cantidad de elementos ordenados por el 
+    criterio
+    """
+    NewList = []
     t1_start = process_time() #tiempo inicial
     sort.selectionSort(lst, function)
+    for i in range(elements):
+        NewList.append(lt.getElement(lst, i))
     t1_stop = process_time() #tiempo final
-    print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
-    return lst[:elements]
+    print("Tiempo de ejecución ",t1_stop-t1_start," segundos\n")
+    return NewList
 
 def main():
     """
-    Método principal del programa, se encarga de manejar todos los metodos adicionales creados
+    Método principal del programa, se encarga de manejar todos los metodos
+    adicionales creados
 
-    Instancia una lista vacia en la cual se guardarán los datos cargados desde el archivo
+    Instancia una lista vacia en la cual se guardarán los datos cargados desde
+    el archivo
     Args: None
     Return: None 
     """
@@ -158,7 +168,8 @@ def main():
                 # lista = loadCSVFile("Data/theMoviesdb/AllMoviesCastingRaw.csv") 
                 # lista = loadCSVFile("Data/theMoviesdb/AllMoviesDetailsCleaned.csv")
                 # lista = loadCSVFile("Data/theMoviesdb/MoviesCastingRaw-small.csv")
-                lista = loadCSVFile("Data/theMoviesdb/SmallMoviesDetailsCleaned.csv")
+                # lista = loadCSVFile("Data/theMoviesdb/SmallMoviesDetailsCleaned.csv")
+                lista = loadCSVFile("Data/theMoviesdb/short.csv")
                 print("Datos cargados, ",lista['size']," elementos cargados")
             elif int(inputs[0])==2: #opcion 2
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
@@ -187,21 +198,21 @@ def main():
                     criteria2 = input('Ingrese 0 para las de mayor cantidad de votos o 1 para las de menor cantidad:\n')
                     cant2 = input('Ingrese la cantidad de películas que desea ver por por la cantidad de votos:\n')
                     # try:
-                    if int(criteria1) == 0:
+                    if int(criteria1[0]) == 0:
                         prom = orderElementsByCriteria(greater, 'vote_average', lista, int(cant1))
-                    elif int(criteria1) == 0:
+                    elif int(criteria1[0]) == 1:
                         prom = orderElementsByCriteria(less, 'vote_average', lista, int(cant1))
-                    if int(criteria2) == 0:
-                        cant = orderElementsByCriteria(greater, 'vote_count', lista, int(cant2))
-                    elif int(criteria2) == 0:
-                        prom = orderElementsByCriteria(less, 'vote_count', lista, int(cant2))
-                    print('Los resultados por promedio son:\n')
+                    if int(criteria2[0]) == 0:
+                        count = orderElementsByCriteria(greater, 'vote_count', lista, int(cant2))
+                    elif int(criteria2[0]) == 1:
+                        count = orderElementsByCriteria(less, 'vote_count', lista, int(cant2))
+                    print('\nLos resultados por promedio son:')
                     print('-' * 30)
                     for i in prom:
                         print(i['title'], i['vote_average'])
-                    print('Los resultados por cantidad de votos son:\n')
+                    print('\nLos resultados por cantidad de votos son:')
                     print('-' * 30)
-                    for i in cant:
+                    for i in count:
                         print(i['title'], i['vote_average'])
                     # except:
                     #     print('Ha ocurrido un error al ingresar los parametros')
