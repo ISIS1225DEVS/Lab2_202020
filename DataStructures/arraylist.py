@@ -47,7 +47,7 @@ def addFirst(lst, element):
     el tamaño de la lista en uno.
 
     Args:
-        lst:  La lista don de inserta el elemento
+        lst:  La lista donde inserta el elemento
         element:  El elemento a insertar en la lista
 
     Returns:
