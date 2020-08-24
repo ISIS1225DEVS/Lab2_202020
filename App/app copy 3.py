@@ -80,15 +80,19 @@ def loadCSVFile (file,file2, sep=";"):
             spamreader = csv.DictReader(csvfile, dialect=dialect)
             for row in spamreader:
                 lt.addLast(catalog["Peliculas"],row)
-        
-                with open(file2, encoding="utf-8") as csvfile:
-                    spamreader = csv.DictReader(csvfile, dialect=dialect)
-                    for row2 in spamreader:
-                        nombre=row2["director_name"]
-                        print(nombre)
-                        posicion= lt.isPresent(catalog["Directores"],a)
-                
-    else:
+        lista=[]
+        with open(file2, encoding="utf-8") as csvfile:
+            spamreader = csv.DictReader(csvfile, dialect=dialect)
+            for row2 in spamreader:
+                nombre=row2["director_name"]
+                id1=row2["id"]
+                iterador= it.newIterator(catalog["Peliculas"])
+                while it.hasNext(iterador):
+                    pelicula= it.next(iterador)
+                    id2=pelicula["id"]
+                    if id1==id2:
+                        mg.add_Movie_director(catalog,nombre,pelicula, mg.compareauthors)
+       
         print("Hubo un error con la carga del archivo")
     t1_stop = process_time() #tiempo final
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
