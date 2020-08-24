@@ -67,9 +67,26 @@ def loadCSVFile (file1, file2, sep=";"):
     t1_start = process_time() #tiempo inicial
     dialect = csv.excel()
     dialect.delimiter=sep
-    try:
-    
-        while
+    # try:
+    abierto1 = open(file1, 'r', encoding = 'utf8')
+    abierto2 = open(file2, 'r', encoding = 'utf8')
+    categorias1 = abierto1.readline().replace('\n', '').split(';')
+    categorias2 = abierto2.readline().replace('\n', '').split(';')
+    linea1 = abierto1.readline()
+    linea2 = abierto2.readline()
+
+    while len(linea1)>0: 
+        datos1 = linea1.replace('\n', '').replace('; ', '').replace('&amp;', '&').split(';')
+        datos2 = linea2.replace('\n', '').split(';')
+        dicc = {}
+        # datos.append(None)
+        for i in range(len(categorias1)):
+            dicc[categorias1[i]] = datos1[i]
+        for i in range(1, len(categorias2)):
+            dicc[categorias2[i]] = datos2[i]
+        lt.addLast(lst, dicc)
+        linea1 = abierto1.readline()
+        linea2 = abierto2.readline()
         # with open(file1, encoding="utf-8") as csvfile1, open(file2, encoding="utf-8") as csvfile2:
         #     spamreader1 = csv.DictReader(csvfile, dialect=dialect)
         #     spamreader2 = csv.DictReader(csvfile, dialect=dialect)
@@ -77,11 +94,10 @@ def loadCSVFile (file1, file2, sep=";"):
         #         spamreader1[i] = spamreader2[i]
         #     for row in spamreader1: 
         #         lt.addLast(lst,row)
-    except:
-        print("Hubo un error con la carga del archivo")
+    # except:
+    #     print("Hubo un error con la carga del archivo")
     t1_stop = process_time() #tiempo final
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
-    print(lt.getElement(lst, 1))
     return lst
 
 
@@ -146,11 +162,12 @@ def orderElementsByCriteria(function, column, lst, elements):
     Retorna una lista con cierta cantidad de elementos ordenados por el 
     criterio
     """
-    NewList = []
+    NewList = None
+    NewList = lt.newList("ARRAY_LIST")
     t1_start = process_time() #tiempo inicial
     sort.selectionSort(lst, function)
-    for i in range(elements):
-        NewList.append(lt.getElement(lst, i))
+    for i in range(elements+1):
+        lt.addFirst(NewList, lt.getElement(lst, i))
     t1_stop = process_time() #tiempo final
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos\n")
     return NewList
@@ -199,27 +216,31 @@ def main():
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")
                 else:
-                    criteria1 = input('Ingrese 0 para las de mayor promedio o 1 para las de menor promedio:\n')
-                    cant1 = input('Ingrese la cantidad de películas que desea ver por por el promedio de calificación:\n')
-                    criteria2 = input('Ingrese 0 para las de mayor cantidad de votos o 1 para las de menor cantidad:\n')
-                    cant2 = input('Ingrese la cantidad de películas que desea ver por por la cantidad de votos:\n')
+                    criteria2 = input('\nIngrese 0 para las de mayor cantidad de votos o 1 para las de menor cantidad:\n')
+                    cant2 = input('\nIngrese la cantidad de películas que desea ver por por la cantidad de votos:\n')
+                    if int(criteria2[0]) == 0:
+                        count = orderElementsByCriteria(greater, 'vote_count', lista, int(cant2))
+                    elif int(criteria2[0]) == 1:
+                        count = orderElementsByCriteria(less, 'vote_count', lista, int(cant2))
+                    print('\nLos resultados por cantidad de votos son:')
+                    print('-' * 30)
+                    for i in range(0, len(count['elements'])):
+                        data = lt.getElement(count, i)
+                        print(data['title'], data['vote_count'])
+
+                    criteria1 = input('\nIngrese 0 para las de mayor promedio o 1 para las de menor promedio:\n')
+                    cant1 = input('\nIngrese la cantidad de películas que desea ver por por el promedio de calificación:\n')
                     # try:
                     if int(criteria1[0]) == 0:
                         prom = orderElementsByCriteria(greater, 'vote_average', lista, int(cant1))
                     elif int(criteria1[0]) == 1:
                         prom = orderElementsByCriteria(less, 'vote_average', lista, int(cant1))
-                    if int(criteria2[0]) == 0:
-                        count = orderElementsByCriteria(greater, 'vote_count', lista, int(cant2))
-                    elif int(criteria2[0]) == 1:
-                        count = orderElementsByCriteria(less, 'vote_count', lista, int(cant2))
                     print('\nLos resultados por promedio son:')
                     print('-' * 30)
-                    for i in prom:
-                        print(i['title'], i['vote_average'])
-                    print('\nLos resultados por cantidad de votos son:')
-                    print('-' * 30)
-                    for i in count:
-                        print(i['title'], i['vote_average'])
+                    for i in range(0, len(prom['elements'])):
+                        data = lt.getElement(prom, i)
+                        print(data['title'], data['vote_average'])
+                    
                     # except:
                     #     print('Ha ocurrido un error al ingresar los parametros')
             elif int(inputs[0])==0: #opcion 0, salir
