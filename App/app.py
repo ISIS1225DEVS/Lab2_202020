@@ -29,14 +29,15 @@
 import config as cf
 import sys
 import csv
+import Support as sup
 from ADT import list as lt
 from DataStructures import listiterator as it
 from DataStructures import liststructure as lt
+from time import process_time
+from Sorting import insertionsort
 
-from time import process_time 
 
-
-def loadCSVFile (file, lst,Type='SINGLELINKED_LIST',sep=";"):
+def loadCSVFile (file, lst,Type='SINGLE_LINKED',sep=";"):
     """
     Carga un archivo csv a una lista
     Args:
@@ -112,17 +113,21 @@ def countElementsByCriteria(criteria, column, lst):
     """
     Retorna la cantidad de elementos que cumplen con un criterio para una columna dada
     """
+    iterator=it.newIterator(lst)
     meter=0
-    pos=1
-    size=lt.size(lst)
-    while pos < size:
-        movie=lt.getElement(lst, pos)
-    return 0
+    key=True
+    while it.hasNext(iterator) and key:
+        movie=it.newIterator(lst)
+        if movie[column] == criteria:
+            meter+=1
+    return meter
 
 def orderElementsByCriteria(function, column, lst, elements):
     """
     Retorna una lista con cierta cantidad de elementos ordenados por el criterio
     """
+    
+
     return 0
 
 def conocer_director(lst,lst2,name_director):
@@ -132,20 +137,23 @@ def conocer_director(lst,lst2,name_director):
     avgsum= 0
     info_peliculas=[]
     lista_peliculas=[]
-    pos=1
-    top=lt.size(lst)
-    while pos < size
-        movie=lt.getElement(lst, pos)
-        if movie['directorname'] == name_director:
+    iterator=it.newIterator(lst)
+    while it.hasNext(iterator):
+        movie= it.next(iterator)
+        if movie['directorname'].lower() == name_director.lower():
             info_peliculas.append(movie["id"])
         pos+=1
-    pos=1
-    i=0
-    while pos < size:
-        movie=lt.getElement(lst2, pos)
-        if movie['id'] == info_peliculas[i]['id']:
-            lista_peliculas.append(movie['title'])
-            avgsum+= pelicula["vote_average"]
+    iterator2=it.newIterator(lst2)
+    while it.newIterator(iterator2):
+        movie=it.next(iterator2)
+        i=0
+        found=False
+        while i < len(lista_peliculas) and not found:
+            if movie['id'] == lista_peliculas[i]['id']:
+                lista_peliculas.append(movie['title'])
+                avgsum+= movie["vote_average"]
+                found=True
+            i+=1
         pos+=1
     avg=avgsum/len(info_peliculas)
     return(lista_peliculas,len(info_peliculas),avg)
@@ -158,8 +166,8 @@ def main():
     Args: None
     Return: None 
     """
-    lista = lt.newList('SINGLELINKED_LIST')   # se require usar lista definida
-    lista2 = lt.newList('SINGLELINKED_LIST')
+    lista = lt.newList('SINGLE_LINKED')   # se require usar lista definida
+    lista2 = lt.newList('SINGLE_LINKED')
     while True:
         printMenu() #imprimir el menu de opciones en consola
         inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
