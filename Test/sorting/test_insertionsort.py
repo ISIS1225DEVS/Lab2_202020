@@ -24,6 +24,7 @@ import pytest
 import config
 from Sorting import insertionsort as sort
 from DataStructures import listiterator as it
+from Test.sorting.less_greater import *
 from ADT import list as slt
 
 #list_type = 'ARRAY_LIST'
@@ -49,16 +50,6 @@ lista_ordenada_correcta = [
     book1, book2, book3, book4, book5, book6, book7, book8, book9, book10
 ]
 
-
-def less(element1, element2):
-    if int(element1['book_id']) < int(element2['book_id']):
-        return True
-    return False
-
-
-def greater(element1, element2):
-    return not(less(element1, element2))
-    
 
 def probarOrden(lst):
     """
