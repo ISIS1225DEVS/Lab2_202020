@@ -130,8 +130,8 @@ def conocer_director(lst,lst2,nombre_director):
     lista_peliculas=[]
     for director in lst:
         if director["director_name"]== nombre_director:
-        lista_id=[]
-        lista_id+= director["id"]
+            lista_id=[]
+            lista_id+= director["id"]
         for pelicula in lst2:
             for cada_id in lista_id:
                 if cada_id == pelicula["id"]:
