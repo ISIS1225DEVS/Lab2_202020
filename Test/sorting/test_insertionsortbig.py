@@ -27,11 +27,11 @@ from DataStructures import listiterator as it
 from ADT import list as lt
 import csv
 
-#list_type = 'ARRAY_LIST'
-list_type = 'SINGLE_LINKED'
+list_type = 'ARRAY_LIST'
+#list_type = 'SINGLE_LINKED'
 
 lst_books = lt.newList(list_type)
-booksfile = cf.data_dir + 'GoodReads/books.csv'
+booksfile = cf.data_dir + 'GoodReads/books-small.csv'
 
 
 def setUp():
@@ -80,4 +80,5 @@ def test_loading_CSV_y_ordenamiento():
         else:
             break
         assert x > y
-
+setUp()
+print(lst_books)

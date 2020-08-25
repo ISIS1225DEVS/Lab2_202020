@@ -10,8 +10,8 @@ from DataStructures import listiterator as it
 from ADT import list as lt
 import csv
 
-#list_type = 'ARRAY_LIST'
-list_type = 'SINGLE_LINKED'
+list_type = 'ARRAY_LIST'
+#list_type = 'SINGLE_LINKED'
 
 lst_movie = lt.newList(list_type)
 moviefile = cf.data_dir + 'theMoviesdb/SmallMoviesDetailsCleaned2.csv'
@@ -36,10 +36,10 @@ def printList(lst):
     iterator = it.newIterator(lst)
     while it.hasNext(iterator):
         element = it.next(iterator)
-        print(element['vote_average'])
+        print(element['id'])
 
 def less(element1, element2):
-    if float(element1['vote_average']) < float(element2['vote_average']):
+    if int(element1['id']) < int(element2['id']):
         return True
     return False
 
@@ -55,11 +55,15 @@ def test_loading_CSV_y_ordenamiento():
     Prueba que se pueda leer el archivo y que despues de relizar el sort, el orden este correcto
     """
     setUp()
+    
     sort.insertionSort(lst_movie,less)
     while not (lt.isEmpty(lst_movie)):
-        x = float(lt.removeLast(lst_movie)['vote_average'])
+        x = int(lt.removeLast(lst_movie)['id'])
         if not (lt.isEmpty(lst_movie)):
-            y = float(lt.lastElement(lst_movie)['vote_average'])
+            y = int(lt.lastElement(lst_movie)['id'])
         else:
             break
         assert x >= y
+
+
+

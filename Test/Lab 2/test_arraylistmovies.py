@@ -20,9 +20,23 @@
  """
 
 import pytest 
-import config 
+import config as cf
 from DataStructures import arraylist as slt
 
+def loadCSVFile (file, sep=";"):
+    """
+    Carga un archivo csv a una lista
+    Args:
+        file
+            Archivo csv del cual se importaran los datos
+        sep = ";"
+            Separador utilizado para determinar cada objeto dentro del archivo
+        Try:
+        Intenta cargar el archivo CSV a la lista que se le pasa por parametro, si encuentra algun error
+        Borra la lista e informa al usuario
+    Returns: None  
+    """
+    
 
 
 def cmpfunction (element1, element2):
