@@ -27,19 +27,32 @@ def tearDown():
        pass
 
 
-def loadCSVFile(file, lst):
-    input_file = csv.DictReader(open(file, encoding = "utf-8"))
-    for row in input_file:
-        lt.addLast(lst, row)
+def loadCSVFile(file, lst,sep=';'):
+
+ 
+    
+    dialect = csv.excel()
+    dialect.delimiter=sep
+    try:
+        with open(file, encoding="utf-8") as csvfile:
+            spamreader = csv.DictReader(csvfile, dialect=dialect)
+            for row in spamreader: 
+                lt.addLast(lst,row)
+    except:
+        print("Hubo un error con la carga del archivo")
+
+
+
+    
 
 def printList(lst):
     iterator = it.newIterator(lst)
     while it.hasNext(iterator):
         element = it.next(iterator)
-        print(element['id'])
+        print(element['budget'])
 
 def less(element1, element2):
-    if int(element1['id']) < int(element2['id']):
+    if float(element1['budget']) < float(element2['budget']):
         return True
     return False
 
@@ -55,15 +68,24 @@ def test_loading_CSV_y_ordenamiento():
     Prueba que se pueda leer el archivo y que despues de relizar el sort, el orden este correcto
     """
     setUp()
-    
     sort.insertionSort(lst_movie,less)
     while not (lt.isEmpty(lst_movie)):
-        x = int(lt.removeLast(lst_movie)['id'])
+        x = float(lt.removeLast(lst_movie)['budget'])
         if not (lt.isEmpty(lst_movie)):
-            y = int(lt.lastElement(lst_movie)['id'])
+            y = float(lt.lastElement(lst_movie)['budget'])
         else:
             break
         assert x >= y
+
+
+
+
+
+
+
+
+
+
 
 
 

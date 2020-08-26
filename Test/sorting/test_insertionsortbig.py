@@ -53,10 +53,10 @@ def printList(lst):
     iterator = it.newIterator(lst)
     while it.hasNext(iterator):
         element = it.next(iterator)
-        print(element['goodreads_book_id'])
+        print(element['best_book_id'])
 
 def less(element1, element2):
-    if int(element1['goodreads_book_id']) < int(element2['goodreads_book_id']):
+    if int(element1['best_book_id']) < int(element2['best_book_id']):
         return True
     return False
 
@@ -74,11 +74,12 @@ def test_loading_CSV_y_ordenamiento():
     setUp()
     sort.insertionSort(lst_books,less)
     while not (lt.isEmpty(lst_books)):
-        x = int(lt.removeLast(lst_books)['goodreads_book_id'])
+        x = int(lt.removeLast(lst_books)['best_book_id'])
         if not (lt.isEmpty(lst_books)):
-            y = int(lt.lastElement(lst_books)['goodreads_book_id'])
+            y = int(lt.lastElement(lst_books)['best_book_id'])
         else:
             break
         assert x > y
 setUp()
 print(lst_books)
+
