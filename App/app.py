@@ -134,7 +134,7 @@ def conocer_director(lst,lst2,name_director):
     lista_peliculas=[]
     pos=1
     top=lt.size(lst)
-    while pos < size
+    while pos < size:
         movie=lt.getElement(lst, pos)
         if movie['directorname'] == name_director:
             info_peliculas.append(movie["id"])
