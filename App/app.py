@@ -200,10 +200,10 @@ def main():
                 print("\n seleccione 1 para cargar la lista 1 o 2 para cargar la lista 2")
                 lista_cargar=input('Seleccione la lista a cargar:\n')
                 if lista_cargar == "1":
-                    lista=loadCSVFile(file='Data\MoviesCastingRaw-small.csv', lista)
+                    lista=loadCSVFile('Data\MoviesCastingRaw-small.csv', lista)
                     print("Datos cargados, ",lista['size']," elementos cargados")
                 elif lista_cargar == '2':
-                    lista2=loadCSVFile(file='Data\SmallMoviesDetailsCleaned.csv', lista2)
+                    lista2=loadCSVFile('Data\MoviesCastingRaw-small.csv', lista2)
                     print("Datos cargados, ",lista2['size']," elementos cargados")
                 else:
                     print('selecione una opcion valida')
