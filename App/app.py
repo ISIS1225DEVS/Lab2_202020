@@ -36,7 +36,7 @@ from DataStructures import liststructure as lt
 from time import process_time 
 
 
-def loadCSVFile (file, sep=";"):
+def loadCSVFile (file, lst,Type='SINGLELINKED_LIST',sep=";"):
     """
     Carga un archivo csv a una lista
     Args:
@@ -50,7 +50,7 @@ def loadCSVFile (file, sep=";"):
     Returns: None  
     """
     #lst = lt.newList("ARRAY_LIST") #Usando implementacion arraylist
-    lst = lt.newList() #Usando implementacion linkedlist
+    lst = lt.newList(Type) #Usando implementacion linkedlist
     print("Cargando archivo ....")
     t1_start = process_time() #tiempo inicial
     dialect = csv.excel()
@@ -65,6 +65,7 @@ def loadCSVFile (file, sep=";"):
     t1_stop = process_time() #tiempo final
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
     return lst
+    
 
 
 def printMenu():
@@ -111,6 +112,11 @@ def countElementsByCriteria(criteria, column, lst):
     """
     Retorna la cantidad de elementos que cumplen con un criterio para una columna dada
     """
+    meter=0
+    pos=1
+    size=lt.size(lst)
+    while pos < size:
+        movie=lt.getElement(lst, pos)
     return 0
 
 def orderElementsByCriteria(function, column, lst, elements):
@@ -118,6 +124,63 @@ def orderElementsByCriteria(function, column, lst, elements):
     Retorna una lista con cierta cantidad de elementos ordenados por el criterio
     """
     return 0
+
+def conocer_director(lst,lst2,name_director):
+    """
+    retorna: La lista de todas las películas dirigidas, El numero de las películas y El promedio de la calificación de sus películas.
+    """
+    avgsum= 0
+    info_peliculas=[]
+    lista_peliculas=[]
+    pos=1
+    top=lt.size(lst)
+    while pos < size:
+        movie=lt.getElement(lst, pos)
+        if movie['director_name'] == name_director:
+            info_peliculas.append(movie["id"])
+        pos+=1
+    pos=1
+    i=0
+    while pos < size:
+        movie=lt.getElement(lst2, pos)
+        if movie['id'] == info_peliculas[i]['id']:
+            lista_peliculas.append(movie['title'])
+            avgsum+= pelicula["vote_average"]
+        pos+=1
+    avg=avgsum/len(info_peliculas)
+    return(lista_peliculas,len(info_peliculas),avg)
+
+def conocer_actor(lst,lst2,name_actor):
+    """
+    retorna: La lista de todas las películas dirigidas, El numero de las películas y El promedio de la calificación de sus películas.
+    """
+    avgsum= 0
+    info_peliculas=[]
+    lista_peliculas=[]
+    dict_directores={}
+    pos=1
+    top=lt.size(lst)
+    while pos < size:
+        movie=lt.getElement(lst, pos)
+        if movie['actor1_name'] or movie['actor2_name'] or movie['actor3_name'] or movie['actor4_name'] or movie['actor5_name'] == name_director:
+            info_peliculas.append(movie["id"])
+            name_director= movie["director_name"]
+            if name_director in dict_directores.keys():
+                dict_directores[name_director]+=1
+            else:
+                dict_directores[name_director]=1
+        pos+=1
+    pos=1
+    i=0
+    while pos < size:
+        movie=lt.getElement(lst2, pos)
+        if movie['id'] == info_peliculas[i]['id']:
+            lista_peliculas.append(movie['title'])
+            avgsum+= pelicula["vote_average"]
+        pos+=1
+    director= max(dict_directores)
+    avg=avgsum/len(info_peliculas)
+    return(lista_peliculas,len(info_peliculas),avg,director)
 
 def main():
     """
@@ -127,14 +190,23 @@ def main():
     Args: None
     Return: None 
     """
-    lista = lt.newList()   # se require usar lista definida
+    lista = lt.newList('SINGLELINKED_LIST')   # se require usar lista definida
+    lista2 = lt.newList('SINGLELINKED_LIST')
     while True:
         printMenu() #imprimir el menu de opciones en consola
         inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
         if len(inputs)>0:
             if int(inputs[0])==1: #opcion 1
-                lista = loadCSVFile("Data/test.csv") #llamar funcion cargar datos
-                print("Datos cargados, ",lista['size']," elementos cargados")
+                print("\n seleccione 1 para cargar la lista 1 o 2 para cargar la lista 2")
+                lista_cargar=input('Seleccione la lista a cargar:\n')
+                if lista_cargar == "1":
+                    lista=loadCSVFile('Data\MoviesCastingRaw-small.csv', lista)
+                    print("Datos cargados, ",lista['size']," elementos cargados")
+                elif lista_cargar == '2':
+                    lista2=loadCSVFile('Data\MoviesCastingRaw-small.csv', lista2)
+                    print("Datos cargados, ",lista2['size']," elementos cargados")
+                else:
+                    print('selecione una opcion valida')
             elif int(inputs[0])==2: #opcion 2
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")    
