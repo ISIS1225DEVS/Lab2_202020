@@ -172,6 +172,9 @@ def orderElementsByCriteria(function, column, lst, elements):
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos\n")
     return NewList
 
+def ActorData(name: str, lst):
+    return
+
 def main():
     """
     Método principal del programa, se encarga de manejar todos los metodos
@@ -188,12 +191,11 @@ def main():
         inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
         if len(inputs)>0:
             if int(inputs[0])==1: #opcion 1
-                # lista = loadCSVFile("Data/theMoviesdb/AllMoviesCastingRaw.csv") 
-                # lista = loadCSVFile("Data/theMoviesdb/AllMoviesDetailsCleaned.csv")
-                # lista = loadCSVFile("Data/theMoviesdb/MoviesCastingRaw-small.csv")
-                # lista = loadCSVFile("Data/theMoviesdb/SmallMoviesDetailsCleaned.csv")
-                lista = loadCSVFile("Data/theMoviesdb/short.csv", "Data/theMoviesdb/shortcasting.csv")
+                lista = loadCSVFile("Data/theMoviesdb/AllMoviesDetailsCleaned.csv", "Data/theMoviesdb/AllMoviesCastingRaw.csv")
+                # lista = loadCSVFile("Data/theMoviesdb/SmallMoviesDetailsCleaned.csv", "Data/theMoviesdb/MoviesCastingRaw-small.csv")
+                # lista = loadCSVFile("Data/theMoviesdb/short.csv", "Data/theMoviesdb/shortcasting.csv")
                 print("Datos cargados, ",lista['size']," elementos cargados")
+                print(type(lista))
             elif int(inputs[0])==2: #opcion 2
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")    
@@ -224,7 +226,7 @@ def main():
                         count = orderElementsByCriteria(less, 'vote_count', lista, int(cant2))
                     print('\nLos resultados por cantidad de votos son:')
                     print('-' * 30)
-                    for i in range(0, len(count['elements'])):
+                    for i in range(1, len(count['elements'])):
                         data = lt.getElement(count, i)
                         print(data['title'], data['vote_count'])
 
@@ -237,7 +239,7 @@ def main():
                         prom = orderElementsByCriteria(less, 'vote_average', lista, int(cant1))
                     print('\nLos resultados por promedio son:')
                     print('-' * 30)
-                    for i in range(0, len(prom['elements'])):
+                    for i in range(1, len(prom['elements'])):
                         data = lt.getElement(prom, i)
                         print(data['title'], data['vote_average'])
                     
