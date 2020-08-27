@@ -169,7 +169,6 @@ def main():
             if int(inputs[0])==1: #opcion 1
                 lista = loadCSVFile("Data/small.csv") #llamar funcion cargar datos
                 print("Datos cargados, ",lista['size']," elementos cargados")
-                print(lista)
             elif int(inputs[0])==2: #opcion 2
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")    
