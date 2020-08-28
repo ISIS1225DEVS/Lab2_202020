@@ -139,7 +139,7 @@ def SearchbyDirector(lst,lst2,name_director):
 
 def SearchbyActor(lst,lst2,name_actor):
     """
-    retorna: La lista de todas las películas dirigidas, El numero de las películas y El promedio de la calificación de sus películas.
+    retorna: La lista de todas las películas en que participó. El numero de las películas. El promedio de la calificación de sus películas. El nombre del director con mas colaboraciones.
     """
     avgsum= 0
     info_peliculas=[]
