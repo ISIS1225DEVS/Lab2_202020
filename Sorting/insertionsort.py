@@ -28,14 +28,11 @@ from ADT import list as lt
 def lessfunction(element1, element2, criteria):
     element1=element1[criteria]
     element2=element2[criteria]
-<<<<<<< HEAD
     if element1 <= element2:
-=======
-    if element1[:3] <= element2[:3]:
->>>>>>> master
-        return 1
-    else:
-        return 0
+        if element1[:3] <= element2[:3]:
+            return 1
+        else:
+            return 0
 
 def greaterfunction(element1, element2, criteria):
     element1=element1[criteria]
