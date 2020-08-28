@@ -112,7 +112,7 @@ def countElementsByCriteria(criteria, column, lst):
     """
     Retorna la cantidad de elementos que cumplen con un criterio para una columna dada
     """
-    meter=0
+    movie=0
     pos=1
     size=lt.size(lst)
     while pos < size:
@@ -132,55 +132,55 @@ def conocer_director(lst,lst2,name_director):
     avgsum= 0
     info_peliculas=[]
     lista_peliculas=[]
-    pos=1
-    top=lt.size(lst)
-    while pos < size:
-        movie=lt.getElement(lst, pos)
-        if movie['director_name'] == name_director:
+    iterador= it.newIterator(lst)
+    while it.hasNext(iterador):
+        movie= it.next(iterador)
+        if movie['director_name'].lower() == name_director.lower():
             info_peliculas.append(movie["id"])
-        pos+=1
-    pos=1
-    i=0
-    while pos < size:
-        movie=lt.getElement(lst2, pos)
-        if movie['id'] == info_peliculas[i]['id']:
-            lista_peliculas.append(movie['title'])
-            avgsum+= pelicula["vote_average"]
-        pos+=1
+    iterador2=it.newIterator(lst2)
+    while it.newIterator(iterador2):
+        movie=it.next(iterador2)
+        i=0
+        found= False
+        while i < len(lista_peliculas) and not found:
+            if movie['id'] == info_peliculas[i]['id']:
+                lista_peliculas.append(movie['title'])
+                avgsum+= movie["vote_average"]
+            i+=1
     avg=avgsum/len(info_peliculas)
     return(lista_peliculas,len(info_peliculas),avg)
 
 def conocer_actor(lst,lst2,name_actor):
-    """
-    retorna: La lista de todas las películas dirigidas, El numero de las películas y El promedio de la calificación de sus películas.
-    """
+    
     avgsum= 0
     info_peliculas=[]
     lista_peliculas=[]
     dict_directores={}
-    pos=1
-    top=lt.size(lst)
-    while pos < size:
-        movie=lt.getElement(lst, pos)
-        if movie['actor1_name'] or movie['actor2_name'] or movie['actor3_name'] or movie['actor4_name'] or movie['actor5_name'] == name_director:
-            info_peliculas.append(movie["id"])
+    iterador= it.newIterator(lst)
+    while it.hasNext(iterador):
+        movie= it.next(iterador)
+        if movie['actor1_name'].lower() or movie['actor2_name'].lower() or movie['actor3_name'].lower() or movie['actor4_name'].lower() or movie['actor5_name'].lower() == name_director.lower():
+            info_peliculas.append
             name_director= movie["director_name"]
             if name_director in dict_directores.keys():
                 dict_directores[name_director]+=1
             else:
                 dict_directores[name_director]=1
-        pos+=1
-    pos=1
-    i=0
-    while pos < size:
-        movie=lt.getElement(lst2, pos)
-        if movie['id'] == info_peliculas[i]['id']:
-            lista_peliculas.append(movie['title'])
-            avgsum+= pelicula["vote_average"]
-        pos+=1
+
+    iterador2=it.newIterator(lst2)
+    while it.newIterator(iterador2):
+        movie=it.next(iterador2)
+        i=0
+        found= False
+        while i < len(lista_peliculas) and not found:
+            if movie['id'] == info_peliculas[i]['id']:
+                lista_peliculas.append(movie['title'])
+                avgsum+= movie["vote_average"]
+            i+=1
     director= max(dict_directores)
     avg=avgsum/len(info_peliculas)
     return(lista_peliculas,len(info_peliculas),avg,director)
+
 
 def main():
     """
