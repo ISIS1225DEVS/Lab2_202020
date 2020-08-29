@@ -246,20 +246,19 @@ def main():
 
                     criteria1 = input('\nIngrese 0 para las de mayor promedio o 1 para las de menor promedio:\n')
                     cant1 = input('\nIngrese la cantidad de películas que desea ver por por el promedio de calificación:\n')
-                    # try:
-                    if int(criteria1[0]) == 0:
-                        prom = orderElementsByCriteria(greater, 'vote_average', lista1, int(cant1))
-                    elif int(criteria1[0]) == 1:
-                        prom = orderElementsByCriteria(less, 'vote_average', lista1, int(cant1))
-                    print('\nLos resultados por promedio son:')
-                    print('-' * 30)
-                    for i in range(1, len(prom['elements'])):
-                        data = lt.getElement(prom, i)
-                        print(data['title'], data['vote_average'])
-                    
-                    # except:
-                    #     print('Ha ocurrido un error al ingresar los parametros')
-            elif int(inputs[0])==6: #opcion 5
+                    try:
+                        if int(criteria1[0]) == 0:
+                            prom = orderElementsByCriteria(greater, 'vote_average', lista1, int(cant1))
+                        elif int(criteria1[0]) == 1:
+                            prom = orderElementsByCriteria(less, 'vote_average', lista1, int(cant1))
+                        print('\nLos resultados por promedio son:')
+                        print('-' * 30)
+                        for i in range(1, len(prom['elements'])):
+                            data = lt.getElement(prom, i)
+                            print(data['title'], data['vote_average'])
+                    except:
+                        print('Ha ocurrido un error al ingresar los parametros')
+            elif int(inputs[0])==6: #opcion 6
                 if lista1==None or lista1['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")
                 else:
