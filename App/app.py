@@ -62,43 +62,27 @@ def loadCSVFile (file1, file2, sep=";"):
     Returns: None  
     """
     #lst = lt.newList("ARRAY_LIST") #Usando implementacion arraylist
-    lst = lt.newList() #Usando implementacion linkedlist
+    lst1 = lt.newList() #Usando implementacion linkedlist
+    #lst2 = lt.newList("ARRAY_LIST") #Usando implementacion arraylist
+    lst2 = lt.newList() #Usando implementacion linkedlist
     print("Cargando archivo ....")
     t1_start = process_time() #tiempo inicial
     dialect = csv.excel()
     dialect.delimiter=sep
-    # try:
-    abierto1 = open(file1, 'r', encoding = 'utf8')
-    abierto2 = open(file2, 'r', encoding = 'utf8')
-    categorias1 = abierto1.readline().replace('\n', '').split(';')
-    categorias2 = abierto2.readline().replace('\n', '').split(';')
-    linea1 = abierto1.readline()
-    linea2 = abierto2.readline()
-
-    while len(linea1)>0: 
-        datos1 = linea1.replace('\n', '').replace('; ', '').replace('&amp;', '&').split(';')
-        datos2 = linea2.replace('\n', '').split(';')
-        dicc = {}
-        # datos.append(None)
-        for i in range(len(categorias1)):
-            dicc[categorias1[i]] = datos1[i]
-        for i in range(1, len(categorias2)):
-            dicc[categorias2[i]] = datos2[i]
-        lt.addLast(lst, dicc)
-        linea1 = abierto1.readline()
-        linea2 = abierto2.readline()
-        # with open(file1, encoding="utf-8") as csvfile1, open(file2, encoding="utf-8") as csvfile2:
-        #     spamreader1 = csv.DictReader(csvfile, dialect=dialect)
-        #     spamreader2 = csv.DictReader(csvfile, dialect=dialect)
-        #     for i in spamreader2:
-        #         spamreader1[i] = spamreader2[i]
-        #     for row in spamreader1: 
-        #         lt.addLast(lst,row)
-    # except:
-    #     print("Hubo un error con la carga del archivo")
+    try:
+        with open(file1, encoding="utf-8") as csvfile:
+            spamreader = csv.DictReader(csvfile, dialect=dialect)
+            for row in spamreader: 
+                lt.addLast(lst1,row)
+        with open(file2, encoding="utf-8") as csvfile:
+            spamreader = csv.DictReader(csvfile, dialect=dialect)
+            for row in spamreader: 
+                lt.addLast(lst2,row)
+    except:
+        print("Hubo un error con la carga del archivo")
     t1_stop = process_time() #tiempo final
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
-    return lst
+    return lst1, lst2
 
 
 def printMenu():
@@ -111,6 +95,7 @@ def printMenu():
     print("3- Contar elementos filtrados por palabra clave")
     print("4- Consultar elementos a partir de dos listas")
     print("5- Clasificar peliculas por votación")
+    print("6- Consultar la información de un actor")
     print("0- Salir")
 
 def countElementsFilteredByColumn(criteria, column, lst):
@@ -172,8 +157,37 @@ def orderElementsByCriteria(function, column, lst, elements):
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos\n")
     return NewList
 
-def ActorData(name: str, lst):
-    return
+def ActorData(name, lst1, lst2):
+    t1_start = process_time() #tiempo inicial
+    counter = 0
+    nPart = 0
+    nombres = []
+    directores = []
+    sumProm = 0
+    for i in range(lt.size(lst2)):
+        counter += 1
+        elemento = lt.getElement(lst2, i)
+        actores = (elemento['actor1_name'] +
+         elemento['actor2_name'] + elemento['actor3_name'] +
+         elemento['actor4_name'] + elemento['actor5_name']).lower().replace(' ','')
+        if name.lower() in actores:
+            nPart += 1
+            nombres.append((lt.getElement(lst1, counter))['title'])
+            directores.append(elemento['director_name'])
+            sumProm += float((lt.getElement(lst1, counter))['vote_average'])
+    if nPart == 0:
+        print('\nActor no encontrado\n')
+        t1_stop = process_time() #tiempo final
+        print("Tiempo de ejecución ",t1_stop-t1_start," segundos\n")
+    else:
+        prom = sumProm / nPart
+        direct = 'Batman'
+        for i in directores:
+            if directores.count(i) >= directores.count(direct):
+                direct = i
+        t1_stop = process_time() #tiempo final
+        print("Tiempo de ejecución ",t1_stop-t1_start," segundos")
+    return (nombres, nPart, round(prom, 1), direct)
 
 def main():
     """
@@ -185,45 +199,45 @@ def main():
     Args: None
     Return: None 
     """
-    lista = lt.newList()   # se require usar lista definida
+    lista1 = lt.newList()   # se require usar lista definida
+    lista2 = lt.newList()   # se require usar lista definida
     while True:
         printMenu() #imprimir el menu de opciones en consola
         inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
         if len(inputs)>0:
             if int(inputs[0])==1: #opcion 1
-                lista = loadCSVFile("Data/theMoviesdb/AllMoviesDetailsCleaned.csv", "Data/theMoviesdb/AllMoviesCastingRaw.csv")
-                # lista = loadCSVFile("Data/theMoviesdb/SmallMoviesDetailsCleaned.csv", "Data/theMoviesdb/MoviesCastingRaw-small.csv")
-                # lista = loadCSVFile("Data/theMoviesdb/short.csv", "Data/theMoviesdb/shortcasting.csv")
-                print("Datos cargados, ",lista['size']," elementos cargados")
-                print(type(lista))
+                # lista1, lista2 = loadCSVFile("Data/theMoviesdb/AllMoviesDetailsCleaned.csv", "Data/theMoviesdb/AllMoviesCastingRaw.csv")
+                lista1, lista2 = loadCSVFile("Data/theMoviesdb/SmallMoviesDetailsCleaned.csv", "Data/theMoviesdb/MoviesCastingRaw-small.csv")
+                # lista1, lista2 = loadCSVFile("Data/theMoviesdb/short.csv", "Data/theMoviesdb/shortcasting.csv")
+                print("Datos cargados, ",lista1['size']," elementos cargados")
             elif int(inputs[0])==2: #opcion 2
-                if lista==None or lista['size']==0: #obtener la longitud de la lista
+                if lista1==None or lista1['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")    
-                else: print("La lista tiene ",lista['size']," elementos")
+                else: print("La lista tiene ",lista1['size']," elementos")
             elif int(inputs[0])==3: #opcion 3
-                if lista==None or lista['size']==0: #obtener la longitud de la lista
+                if lista1==None or lista1['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")
                 else:   
                     criteria =input('Ingrese el criterio de búsqueda\n')
-                    counter=countElementsFilteredByColumn(criteria, "nombre", lista) #filtrar una columna por criterio  
+                    counter=countElementsFilteredByColumn(criteria, "nombre", lista1) #filtrar una columna por criterio  
                     print("Coinciden ",counter," elementos con el crtierio: ", criteria  )
             elif int(inputs[0])==4: #opcion 4
-                if lista==None or lista['size']==0: #obtener la longitud de la lista
+                if lista1==None or lista1['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")
                 else:
                     criteria =input('Ingrese el criterio de búsqueda\n')
-                    counter=countElementsByCriteria(criteria,0,lista)
+                    counter=countElementsByCriteria(criteria,0,lista1)
                     print("Coinciden ",counter," elementos con el crtierio: '", criteria ,"' (en construcción ...)")
             elif int(inputs[0])==5: #opcion 5
-                if lista==None or lista['size']==0: #obtener la longitud de la lista
+                if lista1==None or lista1['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")
                 else:
                     criteria2 = input('\nIngrese 0 para las de mayor cantidad de votos o 1 para las de menor cantidad:\n')
                     cant2 = input('\nIngrese la cantidad de películas que desea ver por por la cantidad de votos:\n')
                     if int(criteria2[0]) == 0:
-                        count = orderElementsByCriteria(greater, 'vote_count', lista, int(cant2))
+                        count = orderElementsByCriteria(greater, 'vote_count', lista1, int(cant2))
                     elif int(criteria2[0]) == 1:
-                        count = orderElementsByCriteria(less, 'vote_count', lista, int(cant2))
+                        count = orderElementsByCriteria(less, 'vote_count', lista1, int(cant2))
                     print('\nLos resultados por cantidad de votos son:')
                     print('-' * 30)
                     for i in range(1, len(count['elements'])):
@@ -234,9 +248,9 @@ def main():
                     cant1 = input('\nIngrese la cantidad de películas que desea ver por por el promedio de calificación:\n')
                     # try:
                     if int(criteria1[0]) == 0:
-                        prom = orderElementsByCriteria(greater, 'vote_average', lista, int(cant1))
+                        prom = orderElementsByCriteria(greater, 'vote_average', lista1, int(cant1))
                     elif int(criteria1[0]) == 1:
-                        prom = orderElementsByCriteria(less, 'vote_average', lista, int(cant1))
+                        prom = orderElementsByCriteria(less, 'vote_average', lista1, int(cant1))
                     print('\nLos resultados por promedio son:')
                     print('-' * 30)
                     for i in range(1, len(prom['elements'])):
@@ -245,6 +259,22 @@ def main():
                     
                     # except:
                     #     print('Ha ocurrido un error al ingresar los parametros')
+            elif int(inputs[0])==6: #opcion 5
+                if lista1==None or lista1['size']==0: #obtener la longitud de la lista
+                    print("La lista esta vacía")
+                else:
+                    name = input('\nIngrese el nombre del actor a consultar:\n')
+                    result = ActorData(name, lista1, lista2)
+                    if result[1] == 0:
+                        pass
+                    else:
+                        print('Las películas en las que ha participado')
+                        print('-' * 40)
+                        for i in result[0]:
+                            print('-',i)
+                        print('\n', name, 'ha participado en', result[1], 'peliculas')
+                        print('El promedio de las películas es:', result[2])
+                        print('El director con quien más ha colaborado es:', result[3])
             elif int(inputs[0])==0: #opcion 0, salir
                 sys.exit(0)
                 
