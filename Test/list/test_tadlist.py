@@ -72,6 +72,7 @@ def test_empty (lst):
 
 
 
+
 def test_addFirst (lst, books):
     assert lt.isEmpty(lst) == True
     assert lt.size(lst) == 0
